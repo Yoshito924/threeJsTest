@@ -50,7 +50,7 @@ function init() {
             });
 
             // モデルの位置調整
-            obj.position.set(0, 0, 0);
+            obj.position.set(0, -30, 0);
             scene.add(obj);
         },
         function (xhr) {
