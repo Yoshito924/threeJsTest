@@ -1,5 +1,7 @@
 'use strict';
 
+import { STLLoader } from './node_modules/three/examples/jsm/loaders/STLLoader.js';
+
 window.addEventListener("DOMContentLoaded", init);
 
 function init() {
@@ -37,21 +39,16 @@ function init() {
     scene.add(directionalLight);
 
     // 3Dモデルの非同期読み込み
-    const objLoader = new THREE.OBJLoader();
-    objLoader.load(
-        './3dcg/3-71_v6.obj',
-        function (obj) {
-            // モデルの最適化
-            obj.traverse(function (child) {
-                if (child instanceof THREE.Mesh) {
-                    child.geometry.computeVertexNormals();
-                    child.material.side = THREE.DoubleSide;
-                }
-            });
+    const stlLoader = new THREE.STLLoader();
+    stlLoader.load(
+        './3dcg/3-71_v6.stl',
+        function (geometry) {
+            const material = new THREE.MeshPhongMaterial({ color: 0xffffff });
+            const mesh = new THREE.Mesh(geometry, material);
 
             // モデルの位置調整
-            obj.position.set(0, -30, 0);
-            scene.add(obj);
+            mesh.position.set(0, -30, 0);
+            scene.add(mesh);
         },
         function (xhr) {
             console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
